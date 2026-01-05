@@ -1,0 +1,38 @@
+{
+  "name": "airbnb-pricing-cli",
+  "version": "1.0.0",
+  "description": "AI-powered ADU pricing optimizer",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "analyze": "npm run build && node dist/index.js",
+    "lint": "eslint src --ext .ts",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "prepare": "husky",
+    "docker:build": "docker build -t adu-pricing .",
+    "docker:run": "docker run --env-file .env adu-pricing"
+  },
+  "dependencies": {
+    "@strands-agents/sdk": "^0.1.0",
+    "dotenv": "^17.2.3",
+    "node-cron": "^3.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/node-cron": "^3.0.11",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "husky": "^9.0.0",
+    "lint-staged": "^15.2.0",
+    "prettier": "^3.1.1",
+    "typescript": "^5.3.3"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  }
+}
