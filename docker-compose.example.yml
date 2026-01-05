@@ -7,10 +7,12 @@ services:
     restart: unless-stopped
     environment:
       PRICELABS_API_KEY: your_pricelabs_api_key_here
+      # Quotes required to preserve exact numeric value
       PRICELABS_LISTING_ID: "your_listing_id_here"
       AWS_REGION: us-east-1
       AWS_ACCESS_KEY_ID: your_aws_access_key_here
       AWS_SECRET_ACCESS_KEY: your_aws_secret_key_here
       TEXTBELT_API_KEY: your_textbelt_api_key_here
+      # Quotes required to preserve + prefix
       TEXTBELT_PHONE: "+1234567890"
 
