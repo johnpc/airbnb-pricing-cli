@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import { Agent } from '@strands-agents/sdk';
 import { loadTools } from './tools/index.js';
+import * as logger from './logger.js';
 
 const agent = new Agent({
   systemPrompt: `You are a dynamic pricing analyst for an Ann Arbor short-term rental.
@@ -63,8 +64,8 @@ async function analyze(): Promise<void> {
     }
   }
 
-  console.log('\n=== PRICING RECOMMENDATIONS ===\n');
-  console.log(output);
+  logger.log('\n=== PRICING RECOMMENDATIONS ===\n');
+  logger.log(output);
 }
 
-analyze().catch(console.error);
+analyze().catch(logger.error);

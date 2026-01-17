@@ -2,6 +2,7 @@ import 'dotenv/config';
 import cron from 'node-cron';
 import { Agent } from '@strands-agents/sdk';
 import { loadTools } from './tools/index.js';
+import * as logger from './logger.js';
 
 const agent = new Agent({
   systemPrompt: `You are a dynamic pricing analyst for an Ann Arbor short-term rental.
@@ -29,11 +30,11 @@ Provide clear, actionable recommendations with dates and reasoning.`,
 async function analyze(): Promise<void> {
   const listingId = process.env.PRICELABS_LISTING_ID;
   if (!listingId) {
-    console.error('PRICELABS_LISTING_ID not set in .env');
+    logger.error('PRICELABS_LISTING_ID not set in .env');
     return;
   }
 
-  console.log(`\n[${new Date().toISOString()}] Starting pricing analysis...\n`);
+  logger.log('Starting pricing analysis...');
 
   const result = agent.stream(
     `Analyze pricing for listing ${listingId} for the next 90 days.
@@ -60,8 +61,8 @@ async function analyze(): Promise<void> {
     }
   }
 
-  console.log(output);
-  console.log(`\n[${new Date().toISOString()}] Analysis complete.\n`);
+  logger.log(output);
+  logger.log('Analysis complete.');
 }
 
 // Run every Sunday at 9 AM
@@ -69,7 +70,7 @@ cron.schedule('0 9 * * 0', () => {
   void analyze();
 });
 
-console.log('Pricing agent scheduled. Running weekly on Sundays at 9 AM.');
+logger.log('Pricing agent scheduled. Running weekly on Sundays at 9 AM.');
 
 // Run immediately on startup
 void analyze();

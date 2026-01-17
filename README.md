@@ -31,7 +31,11 @@ Edit `.env` with your credentials:
 ```bash
 PRICELABS_API_KEY=your_api_key_here
 PRICELABS_LISTING_ID=your_listing_id_here
-STRANDS_API_KEY=your_strands_api_key_here
+
+# AWS (for Bedrock)
+AWS_REGION=us-east-1
+AWS_ACCESS_KEY_ID=your_aws_access_key_here
+AWS_SECRET_ACCESS_KEY=your_aws_secret_key_here
 
 # Optional: SMS notifications
 TEXTBELT_API_KEY=your_textbelt_api_key_here

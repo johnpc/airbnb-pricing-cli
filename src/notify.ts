@@ -1,4 +1,5 @@
 import { FunctionTool, JSONValue } from '@strands-agents/sdk';
+import * as logger from './logger.js';
 
 export const sendSMS = new FunctionTool({
   name: 'send_sms',
@@ -15,7 +16,12 @@ export const sendSMS = new FunctionTool({
     const apiKey = process.env.TEXTBELT_API_KEY;
     const phone = process.env.TEXTBELT_PHONE;
 
+    logger.log('[SMS] Tool called with message length:', message.length);
+    logger.log('[SMS] Phone:', phone);
+    logger.log('[SMS] API key configured:', !!apiKey);
+
     if (!apiKey || !phone) {
+      logger.error('[SMS] Missing credentials');
       return { success: false, error: 'SMS credentials not configured' };
     }
 
@@ -33,14 +39,19 @@ export const sendSMS = new FunctionTool({
       clearTimeout(timeout);
 
       const text = await response.text();
+      logger.log('[SMS] TextBelt response:', text);
+
       if (!text) {
+        logger.error('[SMS] Empty response from TextBelt');
         return { success: false, error: 'Empty response from TextBelt' };
       }
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const result: JSONValue = JSON.parse(text);
+      logger.log('[SMS] Success:', JSON.stringify(result));
       return result;
     } catch (error) {
+      logger.error('[SMS] Error:', error);
       if (error instanceof Error && error.name === 'AbortError') {
         return { success: false, error: 'TextBelt timeout (10s)' };
       }
